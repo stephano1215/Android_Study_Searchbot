@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity">
+
+    <TextView
+        android:id="@+id/ChatTitle"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/NaverColor"
+        android:drawableStart="@drawable/ic_naver_icon__59879"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="\tNAVER에 물어보기"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/ChatArea"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ChatArea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/ChatAreaColor"
+        app:layout_constraintBottom_toTopOf="@+id/ChatContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ChatTitle" />
+
+
+    <EditText
+        android:id="@+id/ChatContent"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:hint="검색어로 물어보세요!"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ChatBtnSearch"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ChatArea" />
+
+    <ImageButton
+        android:id="@+id/ChatBtnSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/NaverColor"
+        android:src="@drawable/ic_search_36px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/ChatContent"
+        app:layout_constraintTop_toBottomOf="@+id/ChatArea" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <CheckBox
+        android:id="@+id/blogcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blog도 물어보기"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/newscheck"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/newscheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="News도 물어보기"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/ChatArea"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/blogcheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
