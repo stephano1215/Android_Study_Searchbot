@@ -28,7 +28,7 @@ public class ViewActivity extends AppCompatActivity {
         ArrayList<String> URLArray = intent.getStringArrayListExtra("src");
         int position = intent.getIntExtra("position", 0);
         TextView textView = findViewById(R.id.ViewDetailTitle);
-        textView.setText(" " + query);
+        textView.setText("\t" + query);
         mViewPager = findViewById(R.id.ViewDetailView);
 
         mAdapter = new RealDetailAdapter();

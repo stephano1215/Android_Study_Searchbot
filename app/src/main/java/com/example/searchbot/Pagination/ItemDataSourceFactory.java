@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.ItemKeyedDataSource;
 
-import com.example.searchbot.Classes.ImageData;
+import com.example.searchbot.CustomData.ImageData;
 
 public class ItemDataSourceFactory extends DataSource.Factory {
 

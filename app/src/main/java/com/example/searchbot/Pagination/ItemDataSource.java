@@ -3,7 +3,7 @@ package com.example.searchbot.Pagination;
 import androidx.annotation.NonNull;
 import androidx.paging.ItemKeyedDataSource;
 
-import com.example.searchbot.Classes.ImageData;
+import com.example.searchbot.CustomData.ImageData;
 import com.example.searchbot.RetrofitAPI.ImageRetrofitAPI;
 
 import retrofit2.Call;

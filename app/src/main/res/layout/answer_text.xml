@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="4dp"
-        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/naver_profile"
         app:layout_constraintTop_toBottomOf="@id/naver_name"

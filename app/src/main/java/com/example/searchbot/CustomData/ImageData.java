@@ -1,4 +1,4 @@
-package com.example.searchbot.Classes;
+package com.example.searchbot.CustomData;
 
 import com.google.gson.annotations.SerializedName;
 

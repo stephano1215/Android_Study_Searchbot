@@ -6,7 +6,7 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.ItemKeyedDataSource;
 import androidx.paging.PagedList;
 
-import com.example.searchbot.Classes.ImageData;
+import com.example.searchbot.CustomData.ImageData;
 
 public class ItemViewModel extends ViewModel {
     LiveData<PagedList<ImageData.items>> itemPagedList;

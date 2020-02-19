@@ -34,7 +34,6 @@
             android:background="@drawable/bottom_line"
             android:maxWidth="200dp"
             android:padding="4dp"
-            android:textSize="18sp"
             android:textStyle="bold"
             tools:text="제목" />
 
@@ -45,7 +44,6 @@
             android:background="@drawable/bottom_line"
             android:maxWidth="200dp"
             android:padding="4dp"
-            android:textSize="18sp"
             tools:text="내용" />
 
         <TextView
@@ -55,7 +53,6 @@
             android:layout_gravity="end"
             android:maxWidth="200dp"
             android:padding="4dp"
-            android:textSize="18sp"
             tools:text="더보기" />
 
     </LinearLayout>

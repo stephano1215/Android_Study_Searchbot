@@ -1,6 +1,5 @@
-package com.example.searchbot.Classes;
+package com.example.searchbot.CustomData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class source {
@@ -24,12 +23,5 @@ public class source {
         this.src2 = src2;
         this.src3 = src3;
         this.src4 = src4;
-    }
-
-    public source(int type, String src1) {
-        this.type = type;
-        this.src1 = src1;
-        this.src2 = null;
-        this.src3 = null;
     }
 }

@@ -7,12 +7,8 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
-import com.example.searchbot.Classes.ImageData;
 import com.example.searchbot.ImageDetailActivity;
 import com.example.searchbot.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AnswerImageViewHolder extends BaseViewHolder {
 
@@ -20,7 +16,6 @@ public class AnswerImageViewHolder extends BaseViewHolder {
     public ImageView image2;
     public LinearLayout image_result;
     public String query;
-    public List<ImageData.items> ImageList;
 
     public AnswerImageViewHolder(@NonNull final View itemView) {
         super(itemView);

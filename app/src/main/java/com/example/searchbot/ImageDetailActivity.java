@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.searchbot.Adapters.DetailAdapter;
-import com.example.searchbot.Classes.ImageData;
+import com.example.searchbot.CustomData.ImageData;
 import com.example.searchbot.RetrofitAPI.ImageRetrofitAPI;
 
 import java.util.ArrayList;
@@ -47,11 +47,10 @@ public class ImageDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         query = intent.getStringExtra("query");
-        ImageDetailTitle.setText(query);
+        ImageDetailTitle.setText("\t" + query);
         mDetailAdapter = new DetailAdapter();
         DetailView.setLayoutManager(gridLayoutManager);
 
-//        ItemViewModel itemViewModel = ViewModelProvider.
         DetailView.setAdapter(mDetailAdapter);
         mDetailAdapter.setQuery(query);
         mDetailAdapter.setURLThumbArray(mURLThumbArray);

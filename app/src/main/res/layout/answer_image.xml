@@ -50,8 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:padding="4dp"
-            android:text="이미지 더보기 >"
-            android:textSize="18sp" />
+            android:text="이미지 더보기 >"/>
 
     </LinearLayout>
 

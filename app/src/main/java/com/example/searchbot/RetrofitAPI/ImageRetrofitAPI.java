@@ -1,6 +1,6 @@
 package com.example.searchbot.RetrofitAPI;
 
-import com.example.searchbot.Classes.ImageData;
+import com.example.searchbot.CustomData.ImageData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.searchbot.Classes.source;
+import com.example.searchbot.CustomData.source;
 import com.example.searchbot.R;
 import com.example.searchbot.ViewHolders.AnswerElseViewHolder;
 import com.example.searchbot.ViewHolders.AnswerImageViewHolder;
@@ -61,8 +61,9 @@ public class MessageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         if (getItemViewType(position) == ItemType.TYPE_REQUEST) {
-            ((RequestViewHolder) holder).profile_name.setText(user_name);
-            Glide.with(holder.itemView.getContext()).load(user_profile).
+//            ((RequestViewHolder) holder).profile_name.setText(user_name);
+            ((RequestViewHolder) holder).profile_name.setText(TypeArray.get(position).src2);
+            Glide.with(holder.itemView.getContext()).load(TypeArray.get(position).src3).
                     into(((RequestViewHolder) holder).profile);
             ((RequestViewHolder) holder).query.setText(TypeArray.get(position).src1);
         } else if (getItemViewType(position) == ItemType.TYPE_TEXT) {
@@ -72,7 +73,7 @@ public class MessageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     .into(((AnswerImageViewHolder) holder).image1);
             Glide.with(holder.itemView.getContext()).load(TypeArray.get(position).src3)
                     .into(((AnswerImageViewHolder) holder).image2);
-            ((AnswerImageViewHolder) holder).ImageList = TypeArray.get(position).src4;
+//            ((AnswerImageViewHolder) holder).ImageList = TypeArray.get(position).src4;
             ((AnswerImageViewHolder) holder).query = TypeArray.get(position).src1;
         } else if (getItemViewType(position) == ItemType.TYPE_BLOG) {
             ((AnswerElseViewHolder) holder).elsetitle.setText(TypeArray.get(position).src1);

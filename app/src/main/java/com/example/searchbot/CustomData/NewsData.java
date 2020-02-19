@@ -1,10 +1,10 @@
-package com.example.searchbot.Classes;
+package com.example.searchbot.CustomData;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class BlogData {
+public class NewsData {
     @SerializedName("items")
     public ArrayList<items> items;
 

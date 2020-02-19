@@ -1,6 +1,6 @@
 package com.example.searchbot.RetrofitAPI;
 
-import com.example.searchbot.Classes.BlogData;
+import com.example.searchbot.CustomData.BlogData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

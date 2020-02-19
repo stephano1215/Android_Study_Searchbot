@@ -2,6 +2,9 @@ package com.example.searchbot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -13,11 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.searchbot.Adapters.MessageAdapter;
-import com.example.searchbot.Classes.BlogData;
-import com.example.searchbot.Classes.ImageData;
-import com.example.searchbot.Classes.LoginData;
-import com.example.searchbot.Classes.NewsData;
-import com.example.searchbot.Classes.source;
+import com.example.searchbot.CustomData.BlogData;
+import com.example.searchbot.CustomData.ImageData;
+import com.example.searchbot.CustomData.LoginData;
+import com.example.searchbot.CustomData.NewsData;
+import com.example.searchbot.CustomData.source;
 import com.example.searchbot.RetrofitAPI.BlogRetrofitAPI;
 import com.example.searchbot.RetrofitAPI.ImageRetrofitAPI;
 import com.example.searchbot.RetrofitAPI.LoginRetrofitAPI;
@@ -34,7 +37,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerview;
+    private static final int TYPE_REQUEST = 0;
+    private static final int TYPE_TEXT = 1;
+    private static final int TYPE_IMG = 2;
+    private static final int TYPE_BLOG = 3;
+    private static final int TYPE_NEWS = 4;
+
+    private RecyclerView mRecyclerview; //drag&drop helper
     private MessageAdapter mMessageAdapter;
     private EditText mQuery;
     private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -43,11 +52,12 @@ public class ChatActivity extends AppCompatActivity {
     private NewsRetrofitAPI mNewsRetrofitAPI;
     private ImageRetrofitAPI mImageRetrofitAPI;
     private LoginRetrofitAPI mLoginRetrofitAPI;
-    private LoginData LOGINresult;
     private CheckBox mBlogCheck;
     private CheckBox mNewsCheck;
     private String query;
     private String Token;
+    private String User_name;
+    private String User_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,7 @@ public class ChatActivity extends AppCompatActivity {
         mMessageAdapter = new MessageAdapter();
         mQuery = findViewById(R.id.ChatContent);
         ImageButton mSearchButton = findViewById(R.id.ChatBtnSearch);
+        linearLayoutManager.setStackFromEnd(true);
         mRecyclerview.setLayoutManager(linearLayoutManager);
         mRecyclerview.setAdapter(mMessageAdapter);
         mSearchButton.setOnClickListener(onClickListener);
@@ -82,7 +93,7 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     query = mQuery.getText().toString();
                     mQuery.setText("");
-                    mTypeArray.add(new source(0, query));
+                    mTypeArray.add(new source(TYPE_REQUEST, query, User_name, User_profile));
                     mMessageAdapter.notifyItemInserted(mMessageAdapter.getItemCount());
                     mRecyclerview.getLayoutManager().scrollToPosition(mMessageAdapter.getItemCount() - 1);
                     if (mBlogCheck.isChecked() && mNewsCheck.isChecked()) {
@@ -138,8 +149,8 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void onResponse(Call<LoginData> call, Response<LoginData> response) {
             LoginData result = response.body();
-            mMessageAdapter.setUser_name(result.items.name);
-            mMessageAdapter.setUser_profile(result.items.profile_image);
+            User_name = result.items.name;
+            User_profile = result.items.profile_image;
         }
 
         @Override
@@ -153,16 +164,16 @@ public class ChatActivity extends AppCompatActivity {
         public void onResponse(Call<ImageData> call, Response<ImageData> response) {
             ImageData IMGresult = response.body();
             if (IMGresult.items.size() == 0) {
-                mTypeArray.add(new source(1, "이미지 검색 결과가 없습니다."));
+                mTypeArray.add(new source(TYPE_TEXT, "이미지 검색 결과가 없습니다.", null, null));
                 mMessageAdapter.notifyItemInserted(mMessageAdapter.getItemCount());
             } else {
-                mTypeArray.add(new source(1, query + "에 대한 이미지 검색 결과입니다."));
+                mTypeArray.add(new source(TYPE_TEXT, query + "에 대한 이미지 검색 결과입니다.", null, null));
                 List<ImageData.items> imageItems = IMGresult.items;
                 int random = (int) (Math.random() * imageItems.size());
                 String Imagesrc1 = imageItems.get(random).thumbnail;
                 random = (int) (Math.random() * IMGresult.items.size());
                 String Imagesrc2 = imageItems.get(random).thumbnail;
-                mTypeArray.add(new source(2, query, Imagesrc1, Imagesrc2, imageItems));
+                mTypeArray.add(new source(TYPE_IMG, query, Imagesrc1, Imagesrc2));
                 mMessageAdapter.notifyItemInserted(mMessageAdapter.getItemCount());
                 mRecyclerview.getLayoutManager().scrollToPosition(mMessageAdapter.getItemCount() - 1);
             }
@@ -179,19 +190,17 @@ public class ChatActivity extends AppCompatActivity {
         public void onResponse(Call<BlogData> call, Response<BlogData> response) {
             BlogData BLOGresult = response.body();
             if (BLOGresult.items.size() == 0) {
-                mTypeArray.add(new source(1, "블로그 검색 결과가 없습니다."));
+                mTypeArray.add(new source(TYPE_TEXT, "블로그 검색 결과가 없습니다.", null, null));
                 mMessageAdapter.notifyItemInserted(mMessageAdapter.getItemCount());
             } else {
-                mTypeArray.add(new source(1, query + "에 대한 블로그 검색 결과입니다."));
+                mTypeArray.add(new source(TYPE_TEXT, query + "에 대한 블로그 검색 결과입니다.", null, null));
                 int random = (int) (Math.random() * BLOGresult.items.size());
-                String mBlogTitle = BLOGresult.items.get(random).title;
-                mBlogTitle = mBlogTitle.replace("<b>", "").replace("</b>", "")
-                        .replace("&quot;", "\"");
-                String mBlogContent = BLOGresult.items.get(random).description;
-                mBlogContent = mBlogContent.replace("<b>", "").replace("</b>", "")
-                        .replace("&quot;", "\"");
+                Spanned temp = Html.fromHtml(BLOGresult.items.get(random).title);
+                String mBlogTitle = temp.toString();
+                temp = Html.fromHtml(BLOGresult.items.get(random).description);
+                String mBlogContent = temp.toString();
                 String mBlogLink = BLOGresult.items.get(random).link;
-                mTypeArray.add(new source(3, mBlogTitle, mBlogContent, mBlogLink));
+                mTypeArray.add(new source(TYPE_BLOG, mBlogTitle, mBlogContent, mBlogLink));
                 mMessageAdapter.notifyItemInserted(mMessageAdapter.getItemCount());
                 mRecyclerview.getLayoutManager().scrollToPosition(mMessageAdapter.getItemCount() - 1);
             }
@@ -208,19 +217,17 @@ public class ChatActivity extends AppCompatActivity {
         public void onResponse(Call<NewsData> call, Response<NewsData> response) {
             NewsData NEWSresult = response.body();
             if (NEWSresult.items.size() == 0) {
-                mTypeArray.add(new source(1, "뉴스 검색 결과가 없습니다."));
+                mTypeArray.add(new source(TYPE_TEXT, "뉴스 검색 결과가 없습니다.", null, null));
                 mMessageAdapter.notifyItemInserted(mMessageAdapter.getItemCount());
             } else {
-                mTypeArray.add(new source(1, query + "에 대한 뉴스 검색 결과입니다."));
+                mTypeArray.add(new source(TYPE_TEXT, query + "에 대한 뉴스 검색 결과입니다.", null, null));
                 int random = (int) (Math.random() * NEWSresult.items.size());
-                String mNewsTitle = NEWSresult.items.get(random).title;
-                mNewsTitle = mNewsTitle.replace("<b>", "").replace("</b>", "")
-                        .replace("&quot;", "\"");
-                String mNewsContent = NEWSresult.items.get(random).description;
-                mNewsContent = mNewsContent.replace("<b>", "").replace("</b>", "")
-                        .replace("&quot;", "\"");
+                Spanned temp = Html.fromHtml(NEWSresult.items.get(random).title);
+                String mNewsTitle = temp.toString();
+                temp = Html.fromHtml(NEWSresult.items.get(random).description);
+                String mNewsContent = temp.toString();
                 String mNewsLink = NEWSresult.items.get(random).link;
-                mTypeArray.add(new source(4, mNewsTitle, mNewsContent, mNewsLink));
+                mTypeArray.add(new source(TYPE_NEWS, mNewsTitle, mNewsContent, mNewsLink));
                 mMessageAdapter.notifyItemInserted(mMessageAdapter.getItemCount());
                 mRecyclerview.getLayoutManager().scrollToPosition(mMessageAdapter.getItemCount() - 1);
             }
